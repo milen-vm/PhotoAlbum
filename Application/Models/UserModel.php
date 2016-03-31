@@ -8,7 +8,7 @@ use MyMVC\Application\Exceptions\UserException;
 class UserModel extends Model
 {
 
-    const AUTHENTICATED_ROLE = 'authent';
+    const DEFAULT_ROLE = 'authent';
 
     const ADMINISTRATION_ROLE = 'admin';
 
@@ -21,6 +21,12 @@ class UserModel extends Model
 
     public function register($name, $password, $email, $birthDay = null)
     {
+        $defaulRoleId = $this->findColumn([
+            'select' => 'id',
+            'from' => 'roles',
+            'where' => 'name = ?'
+        ], [self::DEFAULT_ROLE]);
+
         $emailUsed = $this->find([
             'select' => 'id',
             'where' => 'email = ?'
@@ -34,7 +40,7 @@ class UserModel extends Model
 	       'name' => $name,
 	       'password' => password_hash($password, PASSWORD_DEFAULT),
 	       'email' => $email,
-	       'role_id' => 2
+	       'role_id' => $defaulRoleId
         ];
 
         if ($this->insert($pairs)) {

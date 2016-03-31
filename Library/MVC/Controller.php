@@ -9,7 +9,7 @@ abstract class Controller
 
     protected $method;
 
-    protected function __construct()
+    public function __construct()
     {
     	$this->method = App::getRouter()->getRequestMethod();
     }

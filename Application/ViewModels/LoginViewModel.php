@@ -15,21 +15,6 @@ class LoginViewModel extends ViewModel
         $this->csrfToken = $csrfToken;
     }
 
-    public function setParams($params = [])
-    {
-        if (isset($params['email'])) {
-            $this->setEmail($params['email']);
-        }
-
-        if (isset($params['password'])) {
-            $this->password = $params['password'];
-        }
-
-        if (isset($params['csrfToken'])) {
-            $this->csrfTokenFromPost = $params['csrfToken'];
-        }
-    }
-
     public function getEmail()
     {
         return $this->email;
@@ -43,5 +28,10 @@ class LoginViewModel extends ViewModel
     public function getPassword()
     {
         return $this->password;
+    }
+
+    private function setPassword($password)
+    {
+        $this->password = $password;
     }
 }

@@ -17,23 +17,28 @@ use MyMVC\Library\Utility\ViewHelpers\Alert;
                 <h1>Create new account</h1>
                     <form role="form" action="<?php View::url('user', 'register')?>" method="POST" autocomplete="off">
                         <div class="form-group">
-                            <label for="email" class="">Email</label>
-                            <input type="email" name="email" value="<?php echo $model->getEmail(); ?>" id="email" class="form-control" placeholder="somebody@example.com">
+                            <label for="email">Email</label>
+                            <input type="email" name="email" value="<?php echo $model->getEmail(); ?>"
+                                id="email" autofocus="autofocus" class="form-control" placeholder="somebody@example.com">
                         </div>
                         <div class="form-group">
-                            <label for="full-name" class="">Full name</label>
-                            <input type="text" id="full-name" name="name" value="<?php echo $model->getName(); ?>" class="form-control" placeholder="Max 50 characters">
+                            <label for="full-name">Full name</label>
+                            <input type="text" id="full-name" name="name" value="<?php echo $model->getName(); ?>"
+                            class="form-control" placeholder="Max 50 characters">
                         </div>
                         <div class="form-group">
-                            <label for="pass" class="">Password</label>
-                            <input type="password" name="password" id="pass" class="form-control" placeholder="Password">
+                            <label for="pass">Password</label>
+                            <input type="password" name="password" id="pass" class="form-control"
+                                placeholder="Password">
                         </div>
                         <div class="form-group">
-                            <label for="pass-conf" class="">Confirm Password</label>
-                            <input type="password" name="confPassword" id="pass-conf" class="form-control" placeholder="Repeat password">
+                            <label for="pass-conf">Confirm Password</label>
+                            <input type="password" name="confPassword" id="pass-conf" class="form-control"
+                            placeholder="Repeat password">
                         </div>
-                        <input type="hidden" name="csrfToken" value="<?php echo $model->getCsrfToken(); ?>">
-                        <input type="submit" name="submit" class="btn btn-custom btn-lg btn-block" value="Register">
+                        <input type="hidden" name="csrfTokenFromPost" value="<?php echo $model->getCsrfToken(); ?>">
+                        <input type="submit" name="submit" class="btn btn-custom btn-lg btn-block"
+                            value="Register">
                     </form>
                     <hr>
         	    </div>

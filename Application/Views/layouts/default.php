@@ -44,18 +44,21 @@ use MyMVC\Library\Utility\Storage;
                         <li class="<?php View::isActiv('home', 'index'); ?>">
                             <a href="<?php View::url(); ?>">Home</a>
                         </li>
-                        <?php if (Session::isSetKey('id')) : ?>
+                    <?php if (Session::isSetKey('id')) : ?>
+                        <li class="<?php View::isActiv('album', 'create'); ?>">
+                            <a href="<?php View::url('album', 'create'); ?>">Create</a>
+                        </li>
                         <li>
                             <a href="<?php View::url('user', 'logout'); ?>">Logout</a>
                         </li>
-                        <?php else : ?>
+                    <?php else : ?>
                         <li class="<?php View::isActiv('user', 'register'); ?>">
                             <a href="<?php View::url('user', 'register'); ?>">Register</a>
                         </li>
                         <li class="<?php View::isActiv('user', 'login'); ?>">
                             <a href="<?php View::url('user', 'login'); ?>">Login</a>
                         </li>
-                        <?php endif; ?>
+                    <?php endif; ?>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                     <?php foreach (Config::get('languages') as $lang) : ?>

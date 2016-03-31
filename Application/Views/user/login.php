@@ -27,7 +27,7 @@ use MyMVC\Library\Utility\ViewHelpers\Alert;
                         <span class="character-checkbox" onclick="showPassword()"></span>
                         <span class="label">Show password</span>
                     </div>
-                    <input type="hidden" name="csrfToken" value="<?php echo $model->getCsrfToken(); ?>">
+                    <input type="hidden" name="csrfTokenFromPost" value="<?php echo $model->getCsrfToken(); ?>">
                     <input type="submit" id="btn-login" class="btn btn-custom btn-lg btn-block" value="Log in">
                 </form>
                 <a href="javascript:;" class="forget" data-toggle="modal" data-target=".forget-modal">Forgot your password?</a>

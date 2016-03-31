@@ -96,6 +96,16 @@ class Statement
 
     /**
      *
+     * @param int $columnNumber
+     * @return string
+     */
+    public function fetchColumn($columnNumber = null)
+    {
+        return $this->stmt->fetchColumn($columnNumber);
+    }
+
+    /**
+     *
      * @param int $fetchStyle
      * @return array
      */

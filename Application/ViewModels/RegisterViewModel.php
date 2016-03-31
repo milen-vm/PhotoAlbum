@@ -41,38 +41,6 @@ class RegisterViewModel extends ViewModel
 //     	$this->validationParser = new ValidationParser($this);
     }
 
-    public function setParams($params = [])
-    {
-        if (isset($params['email'])) {
-            $this->setEmail($params['email']);
-        } else {
-            $this->setEmail('');
-        }
-
-        if (isset($params['name'])) {
-            $this->setName($params['name']);
-        } else {
-            $this->setName('');
-        }
-
-        if (isset($params['password'])) {
-            $this->setPassword($params['password']);
-        } else {
-            $this->setPassword('');
-        }
-
-        if (isset($params['confPassword'])) {
-            $this->setConfPassword($params['confPassword']);
-        } else {
-            $this->setConfPassword('');
-        }
-
-        if (isset($params['csrfToken'])) {
-            $this->csrfTokenFromPost = $params['csrfToken'];
-        }
-
-    }
-
     public function getEmail()
     {
         return $this->email;
@@ -80,10 +48,7 @@ class RegisterViewModel extends ViewModel
 
     private function setEmail($email)
     {
-        $email = trim($email);
-        $this->validation->setRule($email, 'required', '', 'Email is required.');
-        $this->validation->setRule($email, 'email', '', 'Invalid email.');
-        $this->email = $email;
+        $this->email = trim($email);
     }
 
     public function getName()
@@ -93,9 +58,7 @@ class RegisterViewModel extends ViewModel
 
     private function setName($name)
     {
-        $name = trim($name);
-        $this->validation->setRule($name, 'required', '', 'Full name is required.');
-        $this->name = $name;
+        $this->name = trim($name);
     }
 
     public function getPassword()
@@ -104,27 +67,26 @@ class RegisterViewModel extends ViewModel
     }
     private function setPassword($password)
     {
-        $password = trim($password);
-        $this->validation->setRule($password, 'required', '', 'Password is required.');
-        $this->validation->setRule($password, 'notContains', ' ',
-            'Password can not conatains white spaces.');
-        $this->password = $password;
+        $this->password = trim($password);
     }
 
     private function setConfPassword($confPassowrd)
     {
-        $this->validation->setRule(
-            $confPassowrd,
-            'matched',
-            $this->password,
-            'Password confirmation do not match.'
-        );
 
-        $this->confPassword = $confPassowrd;
+        $this->confPassword = trim($confPassowrd);
     }
 
     public function validate()
     {
+        $this->validation->setRule($this->email, 'required', '', 'Email is required.');
+        $this->validation->setRule($this->email, 'email', '', 'Invalid email.');
+        $this->validation->setRule($this->name, 'required', '', 'Full name is required.');
+        $this->validation->setRule($this->password, 'required', '', 'Password is required.');
+        $this->validation->setRule($this->password, 'notContains', ' ',
+            'Password can not conatains white spaces.');
+        $this->validation->setRule($this->confPassword, 'matched', $this->password,
+            'Password confirmation do not match.');
+
         return $this->validation->validate();
     }
 

@@ -43,7 +43,7 @@ abstract class Model
      *
      * @param array $pairs
      * @throws \Exception
-     * @return integer
+     * @return string
      */
     protected function insert($pairs)
     {
@@ -71,10 +71,10 @@ abstract class Model
      * @param array $params
      * @return array
      */
-    protected function find($args = [], $params = [])
+    protected function find($args = [], $params = [], $fetchStyle = \PDO::FETCH_ASSOC)
     {
         $result = $this->prepareFind($args, $params);
-        $arr = $result->fetch();
+        $arr = $result->fetch($fetchStyle);
 
         return  $arr !== false ? $arr : [];
     }
@@ -83,13 +83,26 @@ abstract class Model
      *
      * @param array $args
      * @param array $params
-     * @return array:
+     * @return array
      */
-    protected function findAll($args = [], $params = [])
+    protected function findAll($args = [], $params = [], $fetchStyle = \PDO::FETCH_ASSOC)
     {
         $result = $this->prepareFind($args, $params);
 
-        return $result->fetchAll();
+        return $result->fetchAll($fetchStyle);
+    }
+
+    /**
+     *
+     * @param array $args
+     * @param array $params
+     * @return string
+     */
+    protected function findColumn($args, $params)
+    {
+        $result = $this->prepareFind($args, $params);
+
+        return $result->fetchColumn();
     }
 
     private function prepareFind($args, $params)
