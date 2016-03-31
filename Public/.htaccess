@@ -1,0 +1,8 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^ index.php
+    #RewriteRule ^(.*)$ index.php?uri=$1?%{QUERY_STRING} [PT,L]
+    #RewriteRule ^(.*)$ index.php?uri=$1 [PT,L,QSA]  #QSA flag add get params but will rewrite uri
+</IfModule>

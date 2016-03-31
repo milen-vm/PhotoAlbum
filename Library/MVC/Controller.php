@@ -1,0 +1,24 @@
+<?php
+namespace MyMVC\Library\MVC;
+
+use MyMVC\Library\App;
+use MyMVC\Library\Utility\Hellper;
+
+abstract class Controller
+{
+
+    protected $method;
+
+    protected function __construct()
+    {
+    	$this->method = App::getRouter()->getRequestMethod();
+    }
+
+    protected function isMethodPost()
+    {
+        return $this->method == 'POST';
+    }
+
+    public function index()
+    {}
+}
