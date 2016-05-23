@@ -12,7 +12,7 @@ abstract class ViewModel
 
     /**
      *
-     * In the html form fields must be with the same names like setes and fields in *ViewModel class
+     * In the html form fields must be with the same names like seters and fields in *ViewModel class
      *
      * @param array $params
      */

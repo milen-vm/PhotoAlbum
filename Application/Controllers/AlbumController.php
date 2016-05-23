@@ -9,11 +9,13 @@ use MyMVC\Library\MVC\Controller;
 class AlbumController extends Controller
 {
 
-//     public function __construct()
-//     {
-//         parent::__construct();
-//     }
-
+    /**
+     *
+     * @AUTH default\user\login
+     * redirect if user is not authenticated, is not loggedin
+     *
+     * @return \MyMVC\Library\MVC\View
+     */
     public function create()
     {
         $csrfToken = App::csrfToken();

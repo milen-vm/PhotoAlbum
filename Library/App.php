@@ -50,7 +50,10 @@ class App
         $this->setController(self::$router->getController());
         $this->setMethod(self::$router->getAction());
 
-        $this->checkAuthorisation($this->controler, $this->method);
+        $auth = new Authorisation($this->controler, $this->method);
+        if (!$auth->process()) {
+            $this->redirectPath($auth->getPath());
+        }
 
         call_user_func_array([
             $this->controler,
@@ -93,8 +96,25 @@ class App
 
     private function checkAuthorisation($controller, $method)
     {
-        $authorisation = new Authorisation($controller, $method);
-        $authorisation->runAnnotation();
+
+    }
+
+    /**
+     *
+     * @param string $path url in format
+     * [route]/[controller]/[action]/[param]/[param]/...
+     */
+    public static function redirectPath($path)
+    {
+        $path = str_replace('\\', '/', $path);
+        $path = trim($path, '/');
+
+        $components = explode('/', $path);
+        $route = array_shift($components);
+        $controller = array_shift($components);
+        $action = array_shift($components);
+
+        self::redirect($route, $controller, $action, $components);
     }
 
     public static function redirect($route = null, $controler = null, $action = null,

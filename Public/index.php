@@ -1,7 +1,7 @@
 <?php
 
-define('ROOT_DIR', dirname(dirname(__FILE__)).DIRECTORY_SEPARATOR);
-define('ROOT_VIEWS_DIR', ROOT_DIR.'Application' . DIRECTORY_SEPARATOR . 'Views' . DIRECTORY_SEPARATOR);
+define('ROOT_DIR', dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR);
+define('ROOT_VIEWS_DIR', ROOT_DIR . 'Application' . DIRECTORY_SEPARATOR . 'Views' . DIRECTORY_SEPARATOR);
 define('LINK_PREFIX', rtrim(
     str_replace($_SERVER['DOCUMENT_ROOT'], '', ROOT_DIR), DIRECTORY_SEPARATOR)
 );

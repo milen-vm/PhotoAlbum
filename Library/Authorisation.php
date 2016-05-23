@@ -2,73 +2,90 @@
 namespace MyMVC\Library;
 
 use MyMVC\Library\Utility\Session;
+use MyMVC\Application\Models\UserModel;
 
 class Authorisation
 {
+
+    const ANOTATION_PATTERN = '/@([A-Z]+) (.*)$/mi';
 
     /**
      *
      * @var String[] annotations that developer can use in method documentation
      */
-    private $annotations = ['@loggedin', ];
+    private $annotations = ['auth', 'guest'];
 
-    private $methodAnnotations = [];
+    private $annotation;
+
+    /**
+     *
+     * @var String redirection path if user status not match method authorisation
+     */
+    private $path;
 
     public function __construct($class, $method)
     {
+        $this->setParams($class, $method);
+    }
 
+    private function setParams($class, $method)
+    {
         $reflClass = new \ReflectionClass($class);
         $reflMethod = $reflClass->getMethod($method);
-        $methodDoc = $reflMethod->getDocComment();
-        $this->setMethoAnnotations($methodDoc);
-    }
+        $doc = $reflMethod->getDocComment();
 
-    private function setMethoAnnotations($doc)
-    {
         $arr = [];
-        preg_match_all('/(@.*) (.*)$/im', $doc, $arr);
+        preg_match_all(self::ANOTATION_PATTERN, $doc, $arr);
 
         for ($i = 0; $i < count($arr[1]); $i++) {
-            $annotation = $arr[1][$i];
+            $annot = strtolower($arr[1][$i]);
 
-            if (in_array($annotation, $this->annotations)) {
-                $this->methodAnnotations[$annotation] = $arr[2][$i];
+            if (in_array($annot, $this->annotations)) {
+                $this->annotation = $annot;
+                $this->path = $arr[2][$i];
+
+                break;
             }
         }
     }
 
-    public function runAnnotation()
+    public function getPath()
     {
-        foreach ($this->methodAnnotations as $annot => $val) {
-            switch ($annot) {
-            	case '@loggedin':
-            	   $this->performLoggedin($val);
-            	break;
+        return $this->path;
+    }
 
-            	default:
-            		throw new \Exception('Server error.', 500);
-            	break;
+    /**
+     *
+     * @return boolean
+     */
+    public function process()
+    {
+        if ($this->annotation !== null) {
+            $method = 'is' . ucfirst($this->annotation);
+            if (method_exists($this, $method)) {
+                return $this->{$method}();
             }
         }
+
+        return true;
     }
 
-    private function performLoggedin($path)
+    private function isAuth()
     {
-        if (Session::isSetKey('id')) {
-            $this->redirect($path);
+        return Session::isSetKey('id');
+    }
+
+    private function isGuest()
+    {
+        return !Session::isSetKey('id');
+    }
+
+    private function isAdmin()
+    {
+        if (Session::isSetKey('role')) {
+            return Session::get('role') == UserModel::ADMINISTRATION_ROLE;
         }
-    }
 
-    private function redirect($path)
-    {
-        $path = str_replace('\\', '/', $path);
-        $path = trim($path, '/');
-
-        $components = explode('/', $path);
-        $route = array_shift($components);
-        $controller = array_shift($components);
-        $action = array_shift($components);
-
-        App::redirect($route, $controller, $action, $components);
+        return false;
     }
 }

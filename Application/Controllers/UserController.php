@@ -15,11 +15,6 @@ use MyMVC\Library\Utility\Validation;
 class UserController extends Controller
 {
 
-//     public function __construct()
-//     {
-//         parent::__construct();
-//     }
-
     public function index()
     {
         return new View();
@@ -27,8 +22,8 @@ class UserController extends Controller
 
     /**
      *
-     * @loggedin default/home/index
-     * redirect if user is already loggedin
+     * @GUEST authent/home/index
+     * redirect if user is not guest, already is loggedin
      *
      * @throws UserException
      * @return \MyMVC\Library\MVC\View
@@ -65,9 +60,9 @@ class UserController extends Controller
                 $role = $this->executeLogin($registerForm->getEmail(), $registerForm->getPassword());
                 Session::delete('csrfToken');
                 App::redirect($role, 'home');
-            } catch (UserException $e) {
+            } catch (UserException $ue) {
                 Session::set('csrfToken', $csrfToken);
-                $registerForm->setAlert('danger', $e->getMessage());
+                $registerForm->setAlert('danger', $ue->getMessage());
             }
         }
 
@@ -75,8 +70,9 @@ class UserController extends Controller
     }
 
     /**
-     * @loggedin /
-     * redirect if user already loggedin
+     *
+     * @GUEST authent/home/index
+     * redirect if user is not guest, already is loggedin
      *
      * @throws UserException
      * @return \MyMVC\Library\MVC\View
@@ -101,9 +97,9 @@ class UserController extends Controller
                 $role = $this->executeLogin($loginForm->getEmail(), $loginForm->getPassword());
                 Session::delete('csrfToken');
                 App::redirect($role, 'home');
-            } catch (UserException $e) {
+            } catch (UserException $ue) {
                 Session::set('csrfToken', $csrfToken);
-                $loginForm->setAlert('danger', $e->getMessage());
+                $loginForm->setAlert('danger', $ue->getMessage());
             }
         }
 

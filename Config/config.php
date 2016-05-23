@@ -30,7 +30,7 @@ Config::set('dbHost', 'localhost');
 
 Config::set('dbUser', 'root');
 
-Config::set('dbPass', '');
+Config::set('dbPass', '359');
 
 Config::set('dbName', 'photo_album_2');
 

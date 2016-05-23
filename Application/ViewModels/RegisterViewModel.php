@@ -65,6 +65,7 @@ class RegisterViewModel extends ViewModel
     {
         return $this->password;
     }
+
     private function setPassword($password)
     {
         $this->password = trim($password);
